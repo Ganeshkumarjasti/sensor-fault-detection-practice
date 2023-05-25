@@ -1,6 +1,8 @@
 import pymongo
 from sensor.constant.database import DATABASE_NAME
 import certifi
+from sensor.constant.env_variable import MONGODB_URL_KEY
+import os
 ca=certifi.where()
 
 class MongoDBClient:

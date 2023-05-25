@@ -1,2 +1,5 @@
 pymongo[srv]==4.3.3
+from-root
+pandas
+scikit-learn==1.2.2
 -e .
