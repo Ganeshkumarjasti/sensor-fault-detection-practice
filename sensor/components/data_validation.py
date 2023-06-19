@@ -17,6 +17,9 @@ class DataValidation:
             self._schema_config = read_yaml_file(SCHEMA_FILE_PATH)
         except Exception as e:
             raise SensorException(e,sys)
+        
+        def drop_zero_std_columns(self,dataframe):
+            pass
 
 
     def validate_number_of_columns(self,dataframe:pd.DataFrame)->bool:
@@ -69,10 +72,28 @@ class DataValidation:
             #validate number of columns
             status = self.validate_number_of_columns(dataframe=train_dataframe)
             if not status:
-                error_message = f"{error_message}Train dataframe does not contain all columns. "
+                error_message = f"{error_message}Train dataframe does not contain all columns.\n"
             status= self.validate_number_of_columns(dataframe=test_dataframe)
             if not status:
-                error_message = f"{error_message}Test dataframe does not contain all columns. "
+                error_message = f"{error_message}Test dataframe does not contain all columns.\n"
+
+
+            #validate numerical columns
+
+            status = self.is_numerical_column_exist(dataframe=train_dataframe)
+            if not status:
+                error_message =f"{error_message}Train dataframe does not contain all numerical columns.\n"
+
+            status = self.is_numerical_column_exist(dataframe=test_dataframe)
+            if not status:
+                error_message =f"{error_message}Test dataframe does not contain all numerical columns.\n"
+
+            if len(error_message)>0:
+                raise Exception(error_message)
+            
+            #let check data drift
+
+            
 
         except Exception as e:
             raise SensorException(e,sys)
